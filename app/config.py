@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     # Multilingual embeddings for hybrid retrieval (fastembed, ONNX, CPU). Empty = BM25 only.
     embedding_model: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     rrf_k: int = 60
+    # Answer budget per LLM call. Reasoning models (gpt-oss...) spend tokens thinking before
+    # answering; Groq's default cap (2048) can leave an empty answer on long contracts.
+    # Groq counts this budget against the per-minute limit, so it cannot be too large either.
+    llm_max_tokens: int = 4096  # prompt + this must stay under the free tier's 8k tokens/min
     # Optional Langfuse tracing (https://langfuse.com): leave keys empty to disable.
     langfuse_public_key: str = ""
     langfuse_secret_key: str = ""

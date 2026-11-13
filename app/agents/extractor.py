@@ -68,5 +68,36 @@ def format_chunks(chunks: list[Chunk]) -> str:
     return "\n\n".join(f"[{c.id} | page {c.page}]\n{c.text}" for c in chunks)
 
 
+# Fields the compliance rules depend on: an empty one would silently become a false
+# "missing mention" flag, so they get a second, focused look before being reported absent.
+KEY_FIELDS = (
+    "start_date", "duration_months", "monthly_rent_eur", "deposit_eur",
+    "notice_period_tenant_months", "notice_period_landlord_months", "surface_m2", "lease_type",
+)
+
+
+def _fill_missing(ex: LeaseExtraction, chunks: list[Chunk]) -> LeaseExtraction:
+    missing = [f for f in KEY_FIELDS if getattr(ex, f) is None]
+    relevant = [c for c in chunks if any(_mentions(c, f) for f in missing)]
+    if not missing or not relevant:
+        return ex
+    focus = (
+        f"{SYSTEM}\nConcentre-toi UNIQUEMENT sur ces champs : {', '.join(missing)}. "
+        "Lis chaque passage attentivement ; laisse null seulement si l'information est vraiment absente."
+    )
+    try:
+        second = chat_json(focus, format_chunks(relevant), LeaseExtraction)
+    except Exception:  # the first answer stands
+        return ex
+    for f in missing:
+        value = getattr(second, f)
+        if value is not None:
+            setattr(ex, f, value)
+            if f in second.evidence:
+                ex.evidence[f] = second.evidence[f]
+    return ex
+
+
 def extract(chunks: list[Chunk]) -> LeaseExtraction:
-    return fix_evidence(chat_json(SYSTEM, format_chunks(chunks), LeaseExtraction), chunks)
+    ex = chat_json(SYSTEM, format_chunks(chunks), LeaseExtraction)
+    return fix_evidence(_fill_missing(ex, chunks), chunks)

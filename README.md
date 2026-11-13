@@ -5,6 +5,17 @@ cited passages, and flags illegal or missing clauses with the law article.
 
 > Demo project, not legal advice.
 
+## Screenshots
+
+Contract summary with the source page of each field, and questions answered with a verified quote
+(fictional lease `data/contracts/bail_abusif.pdf`):
+
+![Workspace: contract summary and cited answers](docs/screenshots/1-workspace.png)
+
+Every answer is measured on test leases:
+
+![Quality page: evaluation results](docs/screenshots/3-quality.png)
+
 ## Features
 
 - **Extract**: parties, rent, deposit, duration, notice periods... as validated JSON

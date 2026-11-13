@@ -35,6 +35,7 @@ def chat(system: str, user: str, temperature: float = 0.0) -> str:
             resp = _client.chat.completions.create(
                 model=settings.llm_model,
                 temperature=temperature,
+                max_tokens=settings.llm_max_tokens,
                 messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
             )
             return resp.choices[0].message.content or ""

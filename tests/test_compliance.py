@@ -151,3 +151,30 @@ def test_duration_flag_points_to_page_1():
     ex = fix_evidence(lease(duration_months=12, evidence={"duration_months": "p2-c0"}), SRC)
     flags, _ = rule_flags(ex, SRC)
     assert [(f.rule_id, f.page) for f in flags] == [("duration_min", 1)]
+
+
+def test_missing_key_fields_get_a_second_focused_look(monkeypatch):
+    import app.agents.extractor as extractor_mod
+
+    calls = []
+
+    def fake(system, user, schema):
+        calls.append(user)
+        if len(calls) == 1:  # first pass forgets the duration and the surface
+            return lease(duration_months=None, surface_m2=None, evidence={})
+        return LeaseExtraction(duration_months=12, evidence={"duration_months": "p1-c0"})
+
+    monkeypatch.setattr(extractor_mod, "chat_json", fake)
+    ex = extractor_mod.extract(SRC)
+    assert ex.duration_months == 12 and ex.evidence["duration_months"] == "p1-c0"
+    assert ex.surface_m2 is None  # really absent: stays empty
+    assert len(calls) == 2 and "Le dépôt de garantie" not in calls[1]  # only relevant passages
+
+
+def test_no_second_call_when_nothing_is_missing(monkeypatch):
+    import app.agents.extractor as extractor_mod
+
+    calls = []
+    monkeypatch.setattr(extractor_mod, "chat_json", lambda *a, **k: calls.append(1) or lease())
+    extractor_mod.extract(SRC)
+    assert len(calls) == 1
