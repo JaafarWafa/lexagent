@@ -21,6 +21,36 @@ SEVERITY = {"high": ("🔴", "Élevé"), "medium": ("🟠", "Moyen"), "low": ("�
 KIND = {"illegal": "Clause illégale", "missing": "Mention manquante", "warning": "Avertissement"}
 
 
+def _eur(v) -> str:
+    return f"{v:,.0f} €".replace(",", " ") if float(v).is_integer() else f"{v:,.2f} €".replace(",", " ")
+
+
+def _date(v: str) -> str:
+    parts = str(v).split("-")
+    return "/".join(reversed(parts)) if len(parts) == 3 else str(v)
+
+
+def _parties(parties) -> str:
+    return " · ".join(f"{p['role'].capitalize()} : {p['name']}" for p in parties)
+
+
+FIELD_LABELS = {  # extraction field -> (label shown, formatter)
+    "parties": ("Parties", _parties),
+    "property_address": ("Adresse du logement", str),
+    "lease_type": ("Type de bail", lambda v: {"vide": "vide (non meublé)"}.get(v, v)),
+    "start_date": ("Prise d'effet", _date),
+    "duration_months": ("Durée", lambda v: f"{v} mois"),
+    "monthly_rent_eur": ("Loyer mensuel hors charges", _eur),
+    "charges_eur": ("Provision sur charges", _eur),
+    "deposit_eur": ("Dépôt de garantie", _eur),
+    "notice_period_tenant_months": ("Préavis du locataire", lambda v: f"{v} mois"),
+    "notice_period_landlord_months": ("Préavis du bailleur", lambda v: f"{v} mois"),
+    "rent_indexation": ("Révision du loyer", str),
+    "landlord_type": ("Type de bailleur", str),
+    "surface_m2": ("Surface habitable", lambda v: f"{v:g} m²"),
+}
+
+
 def load_secrets_into_env():
     """Streamlit Cloud secrets -> environment variables, read by app.config (env wins)."""
     try:
@@ -136,10 +166,14 @@ def workspace():
         if ex and "extraction" in ex:
             fields = dict(ex["extraction"])
             evidence = fields.pop("evidence", {}) or {}
-            for k, v in fields.items():
-                if v not in (None, [], ""):
-                    src = evidence.get(k)
-                    st.markdown(f"**{k}** : {v}" + (f"  \n<small>source : {src}</small>" if src else ""), unsafe_allow_html=True)
+            for key, (label, fmt) in FIELD_LABELS.items():
+                value = fields.get(key)
+                if value in (None, [], ""):
+                    st.markdown(f"**{label}** : <span style='color:gray'>non mentionné</span>", unsafe_allow_html=True)
+                    continue
+                chunk = st.session_state.chunks.get(evidence.get(key) or "")
+                src = f"  \n<small>source : page {chunk['page']} ({chunk['id']})</small>" if chunk else ""
+                st.markdown(f"**{label}** : {fmt(value)}{src}", unsafe_allow_html=True)
             st.caption(f"Latence : {ex['latency_s']} s")
         elif ex:
             st.error(ex["error"])

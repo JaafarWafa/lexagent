@@ -124,3 +124,30 @@ def test_check_sorts_by_severity(monkeypatch):
     report = check(CHUNKS, lease(deposit_eur=1600))
     assert [f.severity for f in report.flags] == ["high", "medium"]
     assert "deposit_cap" in report.checked_rules and "pets_ban" in report.checked_rules
+
+
+# --- source passages of extracted fields ------------------------------------------------
+
+from app.agents.extractor import fix_evidence  # noqa: E402
+
+SRC = [
+    Chunk(id="p1-c0", page=1, text="Le contrat prend effet le 1er mars 2026. Il est conclu pour une durée d'un an."),
+    Chunk(id="p2-c0", page=2, text="Le loyer mensuel est fixé à 800 euros. Les charges font l'objet d'une provision."),
+    Chunk(id="p3-c0", page=3, text="Le dépôt de garantie est fixé à 1600 euros."),
+]
+
+
+def test_wrong_source_passage_is_moved_to_the_one_mentioning_the_field():
+    ex = fix_evidence(lease(evidence={"duration_months": "p2-c0", "deposit_eur": "p3-c0"}), SRC)
+    assert ex.evidence == {"duration_months": "p1-c0", "deposit_eur": "p3-c0"}
+
+
+def test_invented_or_unfindable_source_is_dropped():
+    ex = fix_evidence(lease(evidence={"deposit_eur": "p9-c9", "surface_m2": "p1-c0"}), SRC)
+    assert ex.evidence == {"deposit_eur": "p3-c0"}  # no passage mentions a surface
+
+
+def test_duration_flag_points_to_page_1():
+    ex = fix_evidence(lease(duration_months=12, evidence={"duration_months": "p2-c0"}), SRC)
+    flags, _ = rule_flags(ex, SRC)
+    assert [(f.rule_id, f.page) for f in flags] == [("duration_min", 1)]

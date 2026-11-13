@@ -1,4 +1,6 @@
 """Extractor agent: contract chunks -> LeaseExtraction (validated JSON)."""
+import unicodedata
+
 from app.llm import chat_json
 from app.schemas import Chunk, LeaseExtraction
 
@@ -12,10 +14,59 @@ SYSTEM = (
     "Dans 'evidence', indique pour chaque champ rempli l'id du passage (ex: p2-c1) où tu l'as trouvé."
 )
 
+# Words a passage must contain to be the source of a field (any group, all words of a group).
+# The LLM's evidence ids are sometimes off by a passage; these let the server check and fix them.
+FIELD_KEYWORDS: dict[str, list[tuple[str, ...]]] = {
+    "parties": [("bailleur",), ("locataire",)],
+    "property_address": [("situe",), ("adresse",), ("logement",)],
+    "lease_type": [("meuble",), ("vide",), ("mobilite",)],
+    "start_date": [("prend effet",), ("prise d'effet",), ("a compter du",)],
+    "duration_months": [("duree",)],
+    "monthly_rent_eur": [("loyer",)],
+    "charges_eur": [("charges",)],
+    "deposit_eur": [("depot de garantie",)],
+    "notice_period_tenant_months": [("preavis", "locataire")],
+    "notice_period_landlord_months": [("preavis", "bailleur")],
+    "rent_indexation": [("revis",), ("indice",), ("irl",)],
+    "landlord_type": [("bailleur",)],
+    "surface_m2": [("surface",)],
+}
+
+
+def _fold(text: str) -> str:
+    text = unicodedata.normalize("NFKD", text.lower())
+    return "".join(ch for ch in text if not unicodedata.combining(ch))
+
+
+def _mentions(chunk: Chunk, field: str) -> bool:
+    text = _fold(chunk.text)
+    return any(all(word in text for word in group) for group in FIELD_KEYWORDS.get(field, []))
+
+
+def fix_evidence(ex: LeaseExtraction, chunks: list[Chunk]) -> LeaseExtraction:
+    """Keep the LLM's source passage when it mentions the field, otherwise point to the first
+    passage that does; drop it when none does or the id is invented."""
+    by_id = {c.id: c for c in chunks}
+    fixed = {}
+    for field, chunk_id in ex.evidence.items():
+        if field not in FIELD_KEYWORDS:
+            if chunk_id in by_id:
+                fixed[field] = chunk_id
+            continue
+        chunk = by_id.get(chunk_id)
+        if chunk is not None and _mentions(chunk, field):
+            fixed[field] = chunk_id
+            continue
+        match = next((c for c in chunks if _mentions(c, field)), None)
+        if match is not None:
+            fixed[field] = match.id
+    ex.evidence = fixed
+    return ex
+
 
 def format_chunks(chunks: list[Chunk]) -> str:
     return "\n\n".join(f"[{c.id} | page {c.page}]\n{c.text}" for c in chunks)
 
 
 def extract(chunks: list[Chunk]) -> LeaseExtraction:
-    return chat_json(SYSTEM, format_chunks(chunks), LeaseExtraction)
+    return fix_evidence(chat_json(SYSTEM, format_chunks(chunks), LeaseExtraction), chunks)

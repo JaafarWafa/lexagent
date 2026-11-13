@@ -44,27 +44,40 @@ def check_citations(citations: list[Citation], chunks: list[Chunk]) -> list[Cita
     """Drop citations to chunks that were not retrieved, fix their page number from the
     chunk itself, and flag whether each quote really appears in that chunk."""
     by_id = {c.id: c for c in chunks}
-    checked = []
+    checked: dict[str, Citation] = {}
     for cit in citations:
         chunk = by_id.get(cit.chunk_id)
         if chunk is None:  # invented id
             continue
         cit.page = chunk.page
         cit.verified = quote_in_passage(cit.quote, chunk.text)
-        checked.append(cit)
-    return checked
+        # Overlapping chunks contain the same sentence: show each quote once, verified first.
+        key = _norm(cit.quote)
+        if key not in checked or (cit.verified and not checked[key].verified):
+            checked[key] = cit
+    return list(checked.values())
+
+
+ENGLISH_WORDS = {
+    "the", "what", "who", "is", "are", "does", "do", "can", "how", "where", "when", "which",
+    "why", "much", "many", "tenant", "landlord", "rent", "lease", "deposit",
+}
 
 
 def _looks_english(text: str) -> bool:
-    words = set(_norm(text).split())
-    return len(words & {"the", "what", "who", "is", "does", "can", "how", "where", "when"}) >= 1
+    return bool(set(_norm(text).split()) & ENGLISH_WORDS)
 
 
 def answer(question: str, chunks: list[Chunk]) -> Answer:
     if not chunks:
         msg = NOT_FOUND["en" if _looks_english(question) else "fr"]
         return Answer(answer=msg, found=False, citations=[])
-    user = f"Question: {question}\n\nPassages:\n{format_chunks(chunks)}"
+    # The model tends to answer in the contract's language (French): say the language explicitly.
+    language = "English" if _looks_english(question) else "French"
+    user = (
+        f"Question: {question}\n\nPassages:\n{format_chunks(chunks)}\n\n"
+        f"Write the answer in {language} (the quotes stay word for word in French)."
+    )
     result = chat_json(SYSTEM, user, Answer)
     result.citations = check_citations(result.citations, chunks)
     if not result.found:

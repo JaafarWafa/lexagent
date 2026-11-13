@@ -220,3 +220,26 @@ def test_llm_quota_error_becomes_429(monkeypatch):
     main_mod.DOCS["q"] = main_mod.Document(chunks=[], retriever=None)
     r = TestClient(app).post("/check/q")
     assert r.status_code == 429 and "Quota" in r.json()["detail"] and "11 min" in r.json()["detail"]
+
+
+def test_duplicate_quotes_from_overlapping_chunks_are_shown_once():
+    a = Chunk(id="p3-c1", page=3, text="La détention de tout animal est interdite. Autre phrase.")
+    b = Chunk(id="p3-c2", page=3, text="Autre phrase. La détention de tout animal est interdite.")
+    cits = [Citation(chunk_id=c.id, page=3, quote="La détention de tout animal est interdite.") for c in (a, b)]
+    assert len(check_citations(cits, [a, b])) == 1
+
+
+@pytest.mark.parametrize(
+    "question,language",
+    [("Can the tenant keep a dog?", "English"), ("Quel est le montant du dépôt de garantie ?", "French")],
+)
+def test_answer_language_is_requested_explicitly(monkeypatch, question, language):
+    seen = {}
+
+    def fake(system, user, schema):
+        seen["user"] = user
+        return Answer(answer="x", found=False)
+
+    monkeypatch.setattr(answerer_mod, "chat_json", fake)
+    answer(question, [CHUNK])
+    assert f"Write the answer in {language}" in seen["user"]
