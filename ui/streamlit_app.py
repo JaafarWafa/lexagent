@@ -1,16 +1,76 @@
-"""LexAgent UI: Workspace (extraction, questions with citations), Risk report, Quality."""
+"""LexAgent UI: Workspace (extraction, questions with citations), Risk report, Quality.
+
+Two modes:
+- API_URL set (docker-compose, deploy/start.sh): talks to the FastAPI service over HTTP.
+- API_URL unset (Streamlit Community Cloud, plain `streamlit run`): runs the same FastAPI app
+  in-process, so a single process serves everything.
+"""
 import hmac
 import json
 import os
+import sys
 from pathlib import Path
 
 import requests
 import streamlit as st
 
-API = os.getenv("API_URL", "http://localhost:8000")
-EVALS = Path(__file__).resolve().parents[1] / "evals"
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))  # `import app` when Streamlit runs this file from ui/
+EVALS = ROOT / "evals"
 SEVERITY = {"high": ("🔴", "Élevé"), "medium": ("🟠", "Moyen"), "low": ("🟡", "Faible")}
 KIND = {"illegal": "Clause illégale", "missing": "Mention manquante", "warning": "Avertissement"}
+
+
+def load_secrets_into_env():
+    """Streamlit Cloud secrets -> environment variables, read by app.config (env wins)."""
+    try:
+        for key, value in st.secrets.items():
+            if isinstance(value, (str, int, float, bool)):
+                os.environ.setdefault(key, str(value))
+    except Exception:  # no secrets file: local run, nothing to load
+        pass
+
+
+load_secrets_into_env()
+
+
+class HttpApi:
+    def __init__(self, base: str):
+        self.base = base.rstrip("/")
+
+    def get(self, path: str, **kw):
+        return requests.get(self.base + path, **kw)
+
+    def post(self, path: str, **kw):
+        return requests.post(self.base + path, **kw)
+
+
+@st.cache_resource(show_spinner="Démarrage du moteur...")
+def in_process_api():
+    """The FastAPI app itself, called without a network hop. Cached: one document store
+    shared by all reruns and visitors of this process."""
+    from fastapi.testclient import TestClient
+
+    from app.main import app
+
+    return TestClient(app, raise_server_exceptions=False)
+
+
+def api():
+    url = os.getenv("API_URL")
+    return HttpApi(url) if url else in_process_api()
+
+
+def ok(r) -> bool:
+    return 200 <= r.status_code < 300
+
+
+def api_error(r) -> str:
+    try:
+        return r.json().get("detail") or r.text
+    except ValueError:
+        return r.text or f"Erreur {r.status_code}"
+
 
 st.set_page_config(page_title="LexAgent", page_icon="⚖️", layout="wide")
 st.title("LexAgent")
@@ -40,10 +100,10 @@ with st.sidebar:
     pdf = st.file_uploader("Déposez un bail (PDF)", type="pdf")
     if pdf and st.button("Analyser", type="primary"):
         with st.spinner("Lecture et indexation..."):
-            r = requests.post(f"{API}/upload", files={"file": (pdf.name, pdf.getvalue(), "application/pdf")})
-        if r.ok:
+            r = api().post("/upload", files={"file": (pdf.name, pdf.getvalue(), "application/pdf")})
+        if ok(r):
             st.session_state.doc = r.json() | {"name": pdf.name}
-            st.session_state.chunks = {c["id"]: c for c in requests.get(f"{API}/chunks/{r.json()['doc_id']}").json()}
+            st.session_state.chunks = {c["id"]: c for c in api().get(f"/chunks/{r.json()['doc_id']}").json()}
             st.session_state.history = []
             st.session_state.extraction = None
             st.session_state.report = None
@@ -55,13 +115,6 @@ with st.sidebar:
         st.caption(f"Recherche : {'hybride (BM25 + embeddings)' if d.get('retrieval') == 'hybrid' else 'BM25'}")
     st.divider()
     st.caption("Outil d'aide à la lecture, pas un conseil juridique.")
-
-
-def api_error(r: requests.Response) -> str:
-    try:
-        return r.json().get("detail") or r.text
-    except ValueError:
-        return r.text or f"Erreur {r.status_code}"
 
 
 def show_passage(chunk_id: str | None):
@@ -77,8 +130,8 @@ def workspace():
         st.subheader("Fiche du contrat")
         if st.button("Extraire les clauses clés"):
             with st.spinner("Extraction..."):
-                r = requests.post(f"{API}/extract/{doc_id}")
-            st.session_state.extraction = r.json() if r.ok else {"error": api_error(r)}
+                r = api().post(f"/extract/{doc_id}")
+            st.session_state.extraction = r.json() if ok(r) else {"error": api_error(r)}
         ex = st.session_state.get("extraction")
         if ex and "extraction" in ex:
             fields = dict(ex["extraction"])
@@ -107,8 +160,8 @@ def workspace():
         q = st.chat_input("Ex : Quel est le montant du dépôt de garantie ?")
         if q:
             with st.spinner("Recherche..."):
-                r = requests.post(f"{API}/ask", json={"doc_id": doc_id, "question": q})
-            if not r.ok:
+                r = api().post("/ask", json={"doc_id": doc_id, "question": q})
+            if not ok(r):
                 st.error(api_error(r))
                 return
             out = r.json()
@@ -131,8 +184,8 @@ def risk_report():
     )
     if st.button("Analyser la conformité", type="primary"):
         with st.spinner("Contrôle des clauses (environ 30 s)..."):
-            r = requests.post(f"{API}/check/{st.session_state.doc['doc_id']}")
-        st.session_state.report = r.json() if r.ok else {"error": api_error(r)}
+            r = api().post(f"/check/{st.session_state.doc['doc_id']}")
+        st.session_state.report = r.json() if ok(r) else {"error": api_error(r)}
     rep = st.session_state.get("report")
     if not rep:
         return

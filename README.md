@@ -1,14 +1,3 @@
----
-title: LexAgent
-emoji: ⚖️
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-app_port: 7860
-pinned: false
-short_description: French lease assistant with citations and compliance
----
-
 # LexAgent
 
 AI assistant for French residential leases: it extracts the key terms, answers questions with
@@ -27,23 +16,31 @@ cited passages, and flags illegal or missing clauses with the law article.
 ## Stack
 
 LangGraph · FastAPI · Streamlit · hybrid retrieval (BM25 + multilingual embeddings) ·
-any OpenAI-compatible LLM (Groq by default) · MCP server · optional Langfuse tracing
+any OpenAI-compatible LLM (Groq, Ollama, Mistral...) · MCP server · optional Langfuse tracing
 
 ## Run locally
 
 ```bash
 cp .env.example .env              # add your LLM_API_KEY
 pip install -r requirements.txt
-uvicorn app.main:app              # API: http://localhost:8000/docs
-streamlit run ui/streamlit_app.py # UI:  http://localhost:8501
+streamlit run ui/streamlit_app.py # http://localhost:8501
 ```
 
-Tests: `pytest -q`
+The UI runs the API in-process. To run the API on its own: `uvicorn app.main:app`
+(docs at http://localhost:8000/docs). Tests: `pytest -q`
 
-## Deploy (Hugging Face Spaces)
+## Deploy (Streamlit Community Cloud)
 
-Create a Docker Space, add the secrets `LLM_API_KEY` and `DEMO_PASSWORD` (optional, protects
-your LLM quota), then push this repo to it. The root `Dockerfile` runs everything in one container.
+On [share.streamlit.io](https://share.streamlit.io), create an app from this repo with main file
+`ui/streamlit_app.py`, and add these secrets:
+
+```toml
+LLM_API_KEY = "your-groq-key"
+LLM_BASE_URL = "https://api.groq.com/openai/v1"
+LLM_MODEL = "openai/gpt-oss-120b"
+DEMO_PASSWORD = "choose-a-password"   # optional, protects your LLM quota
+EMBEDDING_MODEL = ""                  # keyword search only: lighter on the free tier
+```
 
 ## Results
 

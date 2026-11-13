@@ -7,3 +7,4 @@ data/contracts/*.pdf
 !data/contracts/bail_exemple.pdf
 !data/contracts/bail_abusif.pdf
 .venv/
+.streamlit/secrets.toml
