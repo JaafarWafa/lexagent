@@ -1,4 +1,5 @@
 """LexAgent UI: Workspace (extraction, questions with citations), Risk report, Quality."""
+import hmac
 import json
 import os
 from pathlib import Path
@@ -14,6 +15,25 @@ KIND = {"illegal": "Clause illégale", "missing": "Mention manquante", "warning"
 st.set_page_config(page_title="LexAgent", page_icon="⚖️", layout="wide")
 st.title("LexAgent")
 st.caption("Assistant multi-agents pour baux d'habitation français : extraction, questions avec citations, conformité.")
+
+
+def require_password():
+    """Demo gate: when DEMO_PASSWORD is set, nothing (and no LLM call) runs before it is entered."""
+    expected = os.getenv("DEMO_PASSWORD", "")
+    if not expected or st.session_state.get("authenticated"):
+        return
+    with st.form("login"):
+        st.write("Démo privée : entrez le mot de passe pour continuer.")
+        given = st.text_input("Mot de passe", type="password")
+        if st.form_submit_button("Entrer", type="primary"):
+            if hmac.compare_digest(given.encode(), expected.encode()):
+                st.session_state.authenticated = True
+                st.rerun()
+            st.error("Mot de passe incorrect.")
+    st.stop()
+
+
+require_password()
 
 with st.sidebar:
     st.header("Contrat")
@@ -149,10 +169,14 @@ def pct(v):
 
 def quality():
     st.subheader("Qualité mesurée")
-    st.caption("Résultats de `evals/run_evals.py` (questions annotées à la main, LLM juge, contrôle de conformité).")
+    st.caption(
+        "Scores des tests automatiques : des questions dont la bonne réponse est connue sont posées "
+        "à l'application sur des baux fictifs (`data/contracts`). Ils mesurent la fiabilité de "
+        "l'outil, pas le contrat que vous avez déposé."
+    )
     files = sorted(EVALS.glob("results*.json"))
     if not files:
-        st.info("Aucun résultat. Lancez : python evals/run_evals.py --contract ... --gold ... --judge")
+        st.info("Aucun résultat. Lancez : python evals/run_evals.py --contract ... --gold ...")
         return
     runs = {}
     for f in files:
@@ -172,7 +196,22 @@ def quality():
         ("compliance_precision", "Conformité : précision"),
         ("compliance_recall", "Conformité : rappel"),
     ]
+    if all(r.get("answer_accuracy") is None for r in runs.values()):
+        metrics = metrics[1:]  # no judged run: the row would only show dashes
     rows = []
+    row = {"Métrique": "Contrat testé"}
+    for name, r in runs.items():
+        row[name] = Path(r.get("contract", "")).name or "–"
+    rows.append(row)
+    row = {"Métrique": "Questions réussies"}
+    for name, r in runs.items():
+        done = [q for q in r.get("questions", []) if "error" not in q]
+        row[name] = f"{sum(q['ok'] for q in done)} / {len(r.get('questions', []))}" if r.get("questions") else "–"
+    rows.append(row)
+    row = {"Métrique": "Juge LLM"}
+    for name, r in runs.items():
+        row[name] = "activé" if r.get("answer_accuracy") is not None else "désactivé"
+    rows.append(row)
     for label_key, label in metrics:
         row = {"Métrique": label}
         for name, r in runs.items():

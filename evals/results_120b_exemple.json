@@ -1,4 +1,5 @@
 {
+  "contract": "data/contracts/bail_exemple.pdf",
   "retrieval_mode": "hybrid",
   "llm_model": "openai/gpt-oss-120b",
   "top_k": 5,

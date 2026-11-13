@@ -1,4 +1,5 @@
 {
+  "contract": "data/contracts/bail_abusif.pdf",
   "retrieval_mode": "hybrid",
   "llm_model": "openai/gpt-oss-20b",
   "top_k": 5,

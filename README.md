@@ -1,3 +1,14 @@
+---
+title: LexAgent
+emoji: ⚖️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+short_description: French lease assistant with citations and compliance
+---
+
 # LexAgent
 
 Multi-agent assistant for French residential leases. It extracts key clauses, flags illegal, abusive or missing ones with the law article, and answers questions with exact citations. Every answer is measured by an evaluation suite.
@@ -185,19 +196,25 @@ judge, or use `--skip-questions` for compliance only; for CI, use a paid tier. P
 limits (8k tokens/min on the free tier) are handled automatically: the client waits and retries.
 A daily-quota error stops the run, and the partial results are still written.
 
-## Deploy
+## Deploy (demo)
 
-Single container (UI on `$PORT`, API on localhost inside the container): `deploy/start.sh`.
+The repo deploys as-is to a **Hugging Face Space** (Docker SDK, free CPU): the header at the top
+of this README is the Space config, and the root `Dockerfile` runs the API and the UI in one
+container. Only the UI is public; the API listens on localhost inside the container.
 
-Hugging Face Spaces (Docker SDK, free CPU):
+1. Create a Space on huggingface.co: SDK **Docker**, blank template, visibility of your choice.
+2. In the Space **Settings -> Variables and secrets**, add the secrets:
+   - `LLM_API_KEY`: your LLM key (Groq by default; set `LLM_BASE_URL` / `LLM_MODEL` to change)
+   - `DEMO_PASSWORD`: recommended for a public Space, so strangers cannot use up your LLM quota
+3. Push this repo to the Space (`git push` to `https://huggingface.co/spaces/<user>/<space>`,
+   with a Hugging Face access token as the password). The first build takes ~5-10 minutes.
 
-1. Create a Space with the Docker SDK.
-2. Push this repo to it, with `deploy/Dockerfile.space` copied to `Dockerfile` at the root.
-3. In the Space settings, add the secret `LLM_API_KEY` (and optionally `LLM_BASE_URL`,
-   `LLM_MODEL`, `LANGFUSE_*`).
+Demo limits: contracts live in memory only (lost when the Space restarts or sleeps after
+inactivity), uploads are capped at 10 MB, and every visitor shares the same LLM quota.
+It is not built for real users' data: no accounts, no storage, and contracts are sent to a US LLM provider.
 
-The image bakes in the embedding model, so containers start without downloading it.
-Uploaded contracts live in memory only and are lost on restart.
+Other hosts (Render, Railway, Fly.io...): build the root `Dockerfile` and route traffic to `$PORT`.
+Locally: `docker compose up --build` (API on :8000, UI on :8501).
 
 ## Tests
 

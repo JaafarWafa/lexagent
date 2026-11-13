@@ -181,7 +181,7 @@ def main():
     retriever = Retriever(chunks, embedder)
     print(f"{len(chunks)} chunks, retrieval={retriever.mode}, model={settings.llm_model}", file=sys.stderr)
 
-    report: dict = {"retrieval_mode": retriever.mode, "llm_model": settings.llm_model, "top_k": settings.top_k}
+    report: dict = {"contract": args.contract, "retrieval_mode": retriever.mode, "llm_model": settings.llm_model, "top_k": settings.top_k}
 
     extraction = None
     if not args.skip_extraction:
