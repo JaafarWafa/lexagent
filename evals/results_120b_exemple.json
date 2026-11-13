@@ -1,0 +1,1817 @@
+{
+  "retrieval_mode": "hybrid",
+  "llm_model": "openai/gpt-oss-120b",
+  "top_k": 5,
+  "extraction_latency_s": 5.35,
+  "extraction_field_accuracy": 1.0,
+  "extraction_detail": {
+    "monthly_rent_eur": true,
+    "charges_eur": true,
+    "deposit_eur": true,
+    "lease_type": true,
+    "duration_months": true,
+    "start_date": true,
+    "notice_period_tenant_months": true,
+    "notice_period_landlord_months": true,
+    "landlord_type": true,
+    "surface_m2": true
+  },
+  "compliance_latency_s": 3.56,
+  "compliance_precision": 1.0,
+  "compliance_recall": 1.0,
+  "compliance_false_positives": [],
+  "compliance_missed": [],
+  "compliance_flags": [],
+  "aborted": null,
+  "questions_total": 50,
+  "questions_answered": 49,
+  "errors": 1,
+  "answer_accuracy": null,
+  "router_accuracy": 1.0,
+  "retrieval_recall_at_k": 1.0,
+  "retrieval_hit_at_1": 0.738,
+  "citation_page_accuracy": 1.0,
+  "quote_verified_rate": 1.0,
+  "abstention_rate": 1.0,
+  "false_abstention_rate": 0.0,
+  "median_answer_latency_s": 12.18,
+  "p95_answer_latency_s": 19.98,
+  "by_tag": {
+    "classification": {
+      "n": 1,
+      "pass": 1.0
+    },
+    "cross-lingual": {
+      "n": 8,
+      "pass": 1.0
+    },
+    "date": {
+      "n": 3,
+      "pass": 1.0
+    },
+    "english": {
+      "n": 9,
+      "pass": 1.0
+    },
+    "extraction": {
+      "n": 11,
+      "pass": 1.0
+    },
+    "hallucination-trap": {
+      "n": 7,
+      "pass": 1.0
+    },
+    "legal": {
+      "n": 12,
+      "pass": 1.0
+    },
+    "list": {
+      "n": 2,
+      "pass": 1.0
+    },
+    "number": {
+      "n": 11,
+      "pass": 0.909
+    },
+    "party": {
+      "n": 6,
+      "pass": 1.0
+    },
+    "qa": {
+      "n": 32,
+      "pass": 0.969
+    },
+    "reasoning": {
+      "n": 2,
+      "pass": 0.5
+    },
+    "unanswerable": {
+      "n": 7,
+      "pass": 1.0
+    }
+  },
+  "router": [
+    {
+      "text": "Extrais les informations clés du bail",
+      "expected": "extract",
+      "got": "extract",
+      "ok": true
+    },
+    {
+      "text": "Fais-moi la fiche du contrat",
+      "expected": "extract",
+      "got": "extract",
+      "ok": true
+    },
+    {
+      "text": "Résume les points importants de ce bail",
+      "expected": "extract",
+      "got": "extract",
+      "ok": true
+    },
+    {
+      "text": "Give me a summary of this lease",
+      "expected": "extract",
+      "got": "extract",
+      "ok": true
+    },
+    {
+      "text": "Extract all the key fields from this contract",
+      "expected": "extract",
+      "got": "extract",
+      "ok": true
+    },
+    {
+      "text": "Peux-tu me sortir toutes les infos importantes du contrat ?",
+      "expected": "extract",
+      "got": "extract",
+      "ok": true
+    },
+    {
+      "text": "What are the main terms of this lease?",
+      "expected": "extract",
+      "got": "extract",
+      "ok": true
+    },
+    {
+      "text": "Donne-moi une vue d'ensemble du bail",
+      "expected": "extract",
+      "got": "extract",
+      "ok": true
+    },
+    {
+      "text": "Quel est le montant du dépôt de garantie ?",
+      "expected": "ask",
+      "got": "ask",
+      "ok": true
+    },
+    {
+      "text": "Who pays for minor repairs?",
+      "expected": "ask",
+      "got": "ask",
+      "ok": true
+    },
+    {
+      "text": "Le locataire peut-il sous-louer ?",
+      "expected": "ask",
+      "got": "ask",
+      "ok": true
+    },
+    {
+      "text": "Quel est le préavis du locataire ?",
+      "expected": "ask",
+      "got": "ask",
+      "ok": true
+    },
+    {
+      "text": "Can I have a cat?",
+      "expected": "ask",
+      "got": "ask",
+      "ok": true
+    },
+    {
+      "text": "Qui est le garant ?",
+      "expected": "ask",
+      "got": "ask",
+      "ok": true
+    },
+    {
+      "text": "Résume la clause résolutoire",
+      "expected": "ask",
+      "got": "ask",
+      "ok": true
+    },
+    {
+      "text": "What is the rent?",
+      "expected": "ask",
+      "got": "ask",
+      "ok": true
+    },
+    {
+      "text": "Ce bail est-il conforme à la loi ?",
+      "expected": "check",
+      "got": "check",
+      "ok": true
+    },
+    {
+      "text": "Y a-t-il des clauses abusives dans ce contrat ?",
+      "expected": "check",
+      "got": "check",
+      "ok": true
+    },
+    {
+      "text": "Is this lease legal?",
+      "expected": "check",
+      "got": "check",
+      "ok": true
+    },
+    {
+      "text": "Vérifie s'il y a des risques dans ce bail",
+      "expected": "check",
+      "got": "check",
+      "ok": true
+    },
+    {
+      "text": "Any red flags in this contract?",
+      "expected": "check",
+      "got": "check",
+      "ok": true
+    },
+    {
+      "text": "Le dépôt de garantie de 1600 euros est-il légal ?",
+      "expected": "ask",
+      "got": "ask",
+      "ok": true
+    }
+  ],
+  "questions": [
+    {
+      "id": "q01",
+      "question": "Quel est le montant du loyer mensuel hors charges ?",
+      "tags": [
+        "extraction",
+        "number"
+      ],
+      "expected": "750 €",
+      "latency_s": 8.93,
+      "route": "ask",
+      "keywords": "loyer mensuel hors charges, montant du loyer, bail location, charges locatives",
+      "answer": "Le loyer mensuel hors charges est de 750 euros.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Le loyer mensuel est fixé à 750 euros hors charges.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q02",
+      "question": "Quel est le montant des charges mensuelles ?",
+      "tags": [
+        "extraction",
+        "number"
+      ],
+      "expected": "50 €",
+      "latency_s": 14.23,
+      "route": "ask",
+      "keywords": "charges locatives, montant charges, charges mensuelles, dépenses communes, loyer charges",
+      "answer": "Le montant des charges mensuelles est de 50 euros.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Les charges récupérables font l'objet d'une provision mensuelle de 50 euros",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q03",
+      "question": "Quel est le montant du dépôt de garantie ?",
+      "tags": [
+        "extraction",
+        "number"
+      ],
+      "expected": "750 €",
+      "latency_s": 11.22,
+      "route": "ask",
+      "keywords": "dépôt de garantie, montant, bail, location, garantie, loyer",
+      "answer": "Le dépôt de garantie est de 750 euros.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Le dépôt de garantie est fixé à 750 euros, soit un mois de loyer hors charges.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q04",
+      "question": "Qui est le bailleur ?",
+      "tags": [
+        "extraction",
+        "party"
+      ],
+      "expected": "Mme Claire Fontaine",
+      "latency_s": 15.53,
+      "route": "ask",
+      "keywords": "bailleur, identité bailleur, contrat de location, parties, propriétaire, informations bailleur",
+      "answer": "Le bailleur est Mme Claire Fontaine.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "Mme Claire Fontaine, demeurant 8 rue des Lilas, 69003 Lyon, ci-après dénommée le bailleur",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        1,
+        3,
+        3,
+        1,
+        2
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q05",
+      "question": "Qui est le locataire ?",
+      "tags": [
+        "extraction",
+        "party"
+      ],
+      "expected": "M. Youssef Bennani",
+      "latency_s": 24.54,
+      "route": "ask",
+      "keywords": "locataire, identité, bail, contrat de location, parties, location",
+      "answer": "Le locataire est M. Youssef Bennani.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "M. Youssef Bennani, ci-après dénommé le locataire.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        1,
+        3,
+        2,
+        3,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q06",
+      "question": "Quelle est l'adresse du logement ?",
+      "tags": [
+        "extraction"
+      ],
+      "expected": "24 avenue Jean Jaurès, 69007 Lyon, appt 12",
+      "latency_s": 13.78,
+      "route": "ask",
+      "keywords": "adresse du logement, localisation du bien, identification du logement, bail résidentiel",
+      "answer": "Le logement est situé au 24 avenue Jean Jaurès, 69007 Lyon, appartement n° 12, 3e étage.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "Le présent contrat a pour objet la location d'un logement situé au 24 avenue Jean Jaurès, 69007 Lyon, appartement n° 12, 3e étage.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q07",
+      "question": "Le logement est-il loué vide ou meublé ?",
+      "tags": [
+        "extraction",
+        "classification"
+      ],
+      "expected": "vide",
+      "latency_s": 11.02,
+      "route": "ask",
+      "keywords": "location vide, location meublée, type de bail, logement meublé, bail meublé",
+      "answer": "Le logement est loué vide.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "Type de location : logement non meublé (location vide)",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q08",
+      "question": "À quelle date commence le bail ?",
+      "tags": [
+        "extraction",
+        "date"
+      ],
+      "expected": "1er janvier 2026",
+      "latency_s": 9.51,
+      "route": "ask",
+      "keywords": "date de début du bail, entrée en vigueur, prise d'effet, commencement du contrat, bail résidentiel",
+      "answer": "Le bail commence le 1er janvier 2026.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c1",
+          "page": 1,
+          "quote": "Le contrat prend effet le 1er janvier 2026.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        3,
+        1,
+        2
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q09",
+      "question": "Quelle est la durée du bail ?",
+      "tags": [
+        "extraction",
+        "number"
+      ],
+      "expected": "36 mois",
+      "latency_s": 16.95,
+      "route": "ask",
+      "keywords": "durée du bail, bail d'habitation, contrat de location, durée minimale, renouvellement, préavis, location meublée, location vide",
+      "answer": "Le bail est conclu pour une durée de trois ans, soit 36 mois.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c1",
+          "page": 1,
+          "quote": "Il est conclu pour une durée de trois ans, soit 36 mois.",
+          "verified": true
+        },
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "Il est conclu pour une durée de trois ans, soit 36 mois.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        1,
+        2,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q10",
+      "question": "Quel est le préavis du locataire pour quitter le logement ?",
+      "tags": [
+        "extraction"
+      ],
+      "expected": "3 mois",
+      "latency_s": 8.85,
+      "route": "ask",
+      "keywords": "préavis, locataire, résiliation, bail, durée, quittance, logement",
+      "answer": "Le préavis du locataire est de trois mois.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "Le locataire peut donner congé à tout moment, en respectant un préavis de trois mois, par lettre recommandée avec accusé de réception.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q11",
+      "question": "Le loyer est-il révisé chaque année, et selon quel indice ?",
+      "tags": [
+        "extraction"
+      ],
+      "expected": "oui, annuelle, IRL",
+      "latency_s": 9.57,
+      "route": "ask",
+      "keywords": "révision du loyer, indice de référence des loyers, IRL, bail d'habitation, clause de révision, loyer annuel",
+      "answer": "Oui, le loyer est révisé chaque année à la date anniversaire du contrat, selon la variation de l'indice de référence des loyers (IRL) publié par l'INSEE.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Révision du loyer : le loyer sera révisé chaque année à la date anniversaire du contrat, en fonction de la variation de l'indice de référence des loyers (IRL) publié par l'INSEE.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q12",
+      "question": "Who pays for minor repairs in the apartment?",
+      "tags": [
+        "qa",
+        "english",
+        "cross-lingual"
+      ],
+      "expected": "the tenant",
+      "latency_s": 17.39,
+      "route": "ask",
+      "keywords": "menues réparations, entretien courant, charges locatives, responsabilité du locataire, réparations locatives",
+      "answer": "Le locataire prend en charge les menues réparations dans l'appartement.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "Il prend en charge l'entretien courant du logement et les menues réparations.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        2,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q13",
+      "question": "Can the tenant sublet the apartment?",
+      "tags": [
+        "qa",
+        "english",
+        "cross-lingual"
+      ],
+      "expected": "no, unless written consent",
+      "latency_s": 13.1,
+      "route": "ask",
+      "keywords": "sous-location, cession du bail, autorisation du bailleur, clause de sous-location, location meublée, droit du locataire",
+      "answer": "Le locataire ne peut pas sous‑louer l'appartement, sauf s'il obtient un accord écrit du bailleur.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "La sous‑location est interdite sauf accord écrit du bailleur.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q14",
+      "question": "Les animaux de compagnie sont-ils autorisés ?",
+      "tags": [
+        "qa"
+      ],
+      "expected": "oui, sans trouble au voisinage",
+      "latency_s": 12.18,
+      "route": "ask",
+      "keywords": "animaux de compagnie, autorisation, bail, clause, location, interdiction, animaux",
+      "answer": "Oui, les animaux domestiques sont autorisés à condition de ne causer aucun trouble au voisinage.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "Les animaux domestiques sont autorisés, à condition de ne causer aucun trouble au voisinage.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        2,
+        3,
+        1,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q15",
+      "question": "Le bail contient-il une clause résolutoire ? Que prévoit-elle ?",
+      "tags": [
+        "qa",
+        "legal"
+      ],
+      "expected": "oui, impayés après 2 mois de commandement ou défaut d'assurance",
+      "latency_s": 13.66,
+      "route": "ask",
+      "keywords": "clause résolutoire, bail, résiliation, non-paiement, sanctions, obligations locatives",
+      "answer": "Oui, le bail comporte une clause résolutoire. Elle prévoit que le bail sera résilié de plein droit en cas de défaut de paiement du loyer, des charges ou du dépôt de garantie, deux mois après un commandement de payer demeuré infructueux, ou en cas de défaut d'assurance.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "IX. Clause résolutoire Le bail sera résilié de plein droit en cas de défaut de paiement du loyer, des charges ou du dépôt de garantie, deux mois après un commandement de payer demeuré infructueux, ou en cas de défaut d'assurance.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        3,
+        1,
+        2
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q16",
+      "question": "Une assurance habitation est-elle obligatoire pour le locataire ?",
+      "tags": [
+        "qa",
+        "legal"
+      ],
+      "expected": "oui",
+      "latency_s": 11.22,
+      "route": "ask",
+      "keywords": "assurance habitation, obligation locataire, bail, responsabilité civile, loi Alur",
+      "answer": "Oui, le locataire est tenu de souscrire une assurance habitation (assurance contre les risques locatifs).",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "Le locataire doit souscrire une assurance contre les risques locatifs et en justifier chaque année.",
+          "verified": true
+        },
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "ou en cas de défaut d'assurance.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q17",
+      "question": "Quels documents sont annexés au bail ?",
+      "tags": [
+        "qa",
+        "list"
+      ],
+      "expected": "diagnostics, état des lieux, notice, cautionnement",
+      "latency_s": 11.74,
+      "route": "ask",
+      "keywords": "documents annexés bail, état des lieux, diagnostic immobilier, assurance habitation, quittance, dépôt de garantie",
+      "answer": "Les documents annexés au bail sont le dossier de diagnostic technique, l’état des lieux d’entrée, la notice d’information et l’acte de cautionnement.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c1",
+          "page": 3,
+          "quote": "Sont annexés au présent contrat : le dossier de diagnostic technique, l'état des lieux d'entrée, la notice d'information, et l'acte de cautionnement.",
+          "verified": true
+        },
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "M. Karim Bennani se porte caution solidaire du locataire pour le paiement du loyer et des charges, par acte séparé annexé au présent contrat.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        3,
+        1,
+        2,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q18",
+      "question": "Le bail mentionne-t-il un garant ou une caution ? Qui ?",
+      "tags": [
+        "qa",
+        "party"
+      ],
+      "expected": "M. Karim Bennani, caution solidaire",
+      "latency_s": 19.98,
+      "route": "ask",
+      "keywords": "garant, caution, cautionnement, dépôt de garantie, clause de garantie, bail",
+      "answer": "Oui, le bail mentionne un garant : M. Karim Bennani se porte caution solidaire du locataire.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "VI. Garant M. Karim Bennani se porte caution solidaire du locataire pour le paiement du loyer et des charges, par acte séparé annexé au présent contrat.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        2,
+        3,
+        1,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q19",
+      "question": "Quel est le nom du chat du propriétaire ?",
+      "tags": [
+        "unanswerable",
+        "hallucination-trap"
+      ],
+      "expected": "NOT_IN_CONTRACT",
+      "latency_s": 13.75,
+      "route": "ask",
+      "keywords": "nom du chat, propriétaire, animal domestique, clause animaux, animaux de compagnie",
+      "answer": "Le contrat ne mentionne pas le nom du chat du propriétaire.",
+      "found": false,
+      "citations": [],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "ok": true
+    },
+    {
+      "id": "q20",
+      "question": "Quel est le montant de la taxe foncière payée par le bailleur ?",
+      "tags": [
+        "unanswerable",
+        "hallucination-trap"
+      ],
+      "expected": "NOT_IN_CONTRACT",
+      "latency_s": 12.53,
+      "route": "ask",
+      "keywords": "taxe foncière, bailleur, montant, charges locatives, impôt foncier, contrat de location",
+      "answer": "Le montant de la taxe foncière payée par le bailleur n'est pas indiqué dans les passages fournis.",
+      "found": false,
+      "citations": [],
+      "retrieved_pages": [
+        3,
+        2,
+        1,
+        1,
+        3
+      ],
+      "ok": true
+    },
+    {
+      "id": "q21",
+      "question": "Quel jour du mois le loyer doit-il être payé ?",
+      "tags": [
+        "qa",
+        "date"
+      ],
+      "expected": "le 5 de chaque mois",
+      "latency_s": 4.39,
+      "route": "ask",
+      "keywords": "date de paiement du loyer, échéance, loyer mensuel, bail, paiement",
+      "answer": "Le loyer doit être payé le 5 de chaque mois.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Le loyer est payable d'avance le 5 de chaque mois par virement.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q22",
+      "question": "Par quel moyen le loyer est-il payé ?",
+      "tags": [
+        "qa"
+      ],
+      "expected": "par virement",
+      "latency_s": 20.21,
+      "route": "ask",
+      "keywords": "paiement du loyer, mode de paiement, virement bancaire, prélèvement automatique, dépôt de garantie",
+      "answer": "Le loyer est payé par virement.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Le loyer est payable d'avance le 5 de chaque mois par virement.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q23",
+      "question": "Quelle est la surface habitable du logement ?",
+      "tags": [
+        "qa",
+        "number"
+      ],
+      "expected": "42 m²",
+      "latency_s": 2.11,
+      "route": "ask",
+      "keywords": "surface habitable, superficie, logement, bail, surface du logement, surface locative",
+      "answer": "La surface habitable du logement est de 42 m².",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "Surface habitable : 42 m².",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        3,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q24",
+      "question": "De quelles pièces se compose le logement ?",
+      "tags": [
+        "qa",
+        "list"
+      ],
+      "expected": "un séjour, une chambre, une cuisine équipée, une salle d'eau",
+      "latency_s": 20.68,
+      "route": "ask",
+      "keywords": "pièces du logement, composition, nombre de pièces, désignation, surface habitable, logement",
+      "answer": "Le logement comprend un séjour, une chambre, une cuisine équipée et une salle d'eau.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "Le logement comprend un séjour, une chambre, une cuisine équipée et une salle d'eau.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        1,
+        3,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q25",
+      "question": "À quel étage se trouve l'appartement ?",
+      "tags": [
+        "qa"
+      ],
+      "expected": "3e étage",
+      "latency_s": 8.43,
+      "route": "ask",
+      "keywords": "étage, localisation du bien, description du logement, adresse, surface habitable",
+      "answer": "L'appartement se trouve au 3e étage.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "appartement n° 12, 3e étage",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        1,
+        3,
+        2,
+        3,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q26",
+      "question": "Le logement est-il loué comme résidence principale ?",
+      "tags": [
+        "qa",
+        "legal"
+      ],
+      "expected": "oui",
+      "latency_s": 15.81,
+      "route": "ask",
+      "keywords": "résidence principale, bail d'habitation, usage du logement, location principale, contrat de location",
+      "answer": "Oui, le logement est loué à usage de résidence principale.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "Type de location : logement non meublé (location vide), à usage de résidence principale.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q27",
+      "question": "Que se passe-t-il à la fin du bail si personne ne donne congé ?",
+      "tags": [
+        "qa",
+        "legal"
+      ],
+      "expected": "reconduction tacite pour la même durée",
+      "latency_s": 11.84,
+      "route": "ask",
+      "keywords": "fin de bail, congé, renouvellement tacite, préavis, bail d'habitation, absence de congé",
+      "answer": "Si aucune des parties ne donne congé, le bail est reconduit tacitement pour la même durée.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c1",
+          "page": 1,
+          "quote": "À défaut de congé, il est reconduit tacitement pour la même durée.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q28",
+      "question": "Quel préavis le bailleur doit-il respecter pour donner congé ?",
+      "tags": [
+        "qa",
+        "legal"
+      ],
+      "expected": "six mois, à l'échéance du bail, pour un motif légal",
+      "latency_s": 6.05,
+      "route": "ask",
+      "keywords": "préavis, bailleur, congé, bail d'habitation, durée du préavis, loi Alur",
+      "answer": "Le bailleur doit respecter un préavis de six mois pour donner congé.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "Le bailleur peut donner congé à l'échéance du bail avec un préavis de six mois, pour les motifs prévus par la loi.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q29",
+      "question": "Sous quelle forme le locataire doit-il envoyer son congé ?",
+      "tags": [
+        "qa",
+        "legal"
+      ],
+      "expected": "lettre recommandée avec accusé de réception",
+      "latency_s": 14.67,
+      "route": "ask",
+      "keywords": "congé, forme, locataire, préavis, bail, notification",
+      "answer": "Le locataire doit envoyer son congé par lettre recommandée avec accusé de réception.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "par lettre recommandée avec accusé de réception",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        1,
+        2,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q30",
+      "question": "Dans quel délai le dépôt de garantie est-il restitué ?",
+      "tags": [
+        "qa",
+        "legal",
+        "number"
+      ],
+      "expected": "deux mois maximum après la remise des clés",
+      "latency_s": 12.68,
+      "route": "ask",
+      "keywords": "dépôt de garantie, restitution, délai, bail, location",
+      "answer": "Le dépôt de garantie est restitué dans un délai maximal de deux mois après la remise des clés, déduction faite des sommes dues.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Il sera restitué dans un délai maximal de deux mois après la remise des clés, déduction faite des sommes dues.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        3,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q31",
+      "question": "Les charges font-elles l'objet d'une régularisation ?",
+      "tags": [
+        "qa"
+      ],
+      "expected": "oui, régularisation annuelle",
+      "latency_s": 15.8,
+      "route": "ask",
+      "keywords": "charges locatives, régularisation, bail, dépenses communes, provision sur charges",
+      "answer": "Oui, les charges récupérables font l'objet d'une régularisation annuelle.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Les charges récupérables font l'objet d'une provision mensuelle de 50 euros, avec régularisation annuelle.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q32",
+      "question": "Where does the landlord live?",
+      "tags": [
+        "qa",
+        "english",
+        "cross-lingual",
+        "party"
+      ],
+      "expected": "8 rue des Lilas, 69003 Lyon",
+      "latency_s": 8.9,
+      "route": "ask",
+      "keywords": "adresse du bailleur, domicile du propriétaire, localisation du bailleur, coordonnées du propriétaire, adresse du locateur",
+      "answer": "Le bailleur habite au 8 rue des Lilas, 69003 Lyon.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p1-c0",
+          "page": 1,
+          "quote": "Mme Claire Fontaine, demeurant 8 rue des Lilas, 69003 Lyon",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q33",
+      "question": "How much is the security deposit?",
+      "tags": [
+        "qa",
+        "english",
+        "cross-lingual",
+        "number"
+      ],
+      "expected": "750 euros",
+      "latency_s": 9.72,
+      "route": "ask",
+      "keywords": "dépôt de garantie, montant, caution, bail, loyer",
+      "answer": "Le dépôt de garantie est de 750 euros.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Le dépôt de garantie est fixé à 750 euros, soit un mois de loyer hors charges.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q34",
+      "question": "What happens if the tenant stops paying the rent?",
+      "tags": [
+        "qa",
+        "english",
+        "cross-lingual",
+        "legal"
+      ],
+      "expected": "the lease is terminated automatically two months after an unsuccessful formal demand to pay",
+      "latency_s": 7.95,
+      "route": "ask",
+      "keywords": "non-paiement loyer, mise en demeure, résiliation bail, procédure judiciaire, dépôt de garantie",
+      "answer": "If the tenant stops paying the rent, the lease is automatically terminated (résilié de plein droit) two months after a payment order that remains ineffective.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "Le bail sera résilié de plein droit en cas de défaut de paiement du loyer, des charges ou du dépôt de garantie, deux mois après un commandement de payer demeuré infructueux, ou en cas de défaut d'assurance.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        2,
+        1,
+        3,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q35",
+      "question": "Is the rent increased every year, and based on which index?",
+      "tags": [
+        "qa",
+        "english",
+        "cross-lingual"
+      ],
+      "expected": "yes, annually, on the IRL (INSEE rent reference index)",
+      "latency_s": 18.11,
+      "route": "ask",
+      "keywords": "révision du loyer, indice de référence, augmentation annuelle, bail d'habitation, clause d'indexation",
+      "answer": "Oui, le loyer est révisé chaque année à la date anniversaire du contrat, en fonction de la variation de l'indice de référence des loyers (IRL) publié par l'INSEE.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Révision du loyer : le loyer sera révisé chaque année à la date anniversaire du contrat, en fonction de la variation de l'indice de référence des loyers (IRL) publié par l'INSEE.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q36",
+      "question": "How much notice must the tenant give before leaving?",
+      "tags": [
+        "qa",
+        "english",
+        "cross-lingual"
+      ],
+      "expected": "three months",
+      "latency_s": 7.83,
+      "route": "ask",
+      "keywords": "préavis, locataire, bail d'habitation, durée du préavis, loi Alur, résiliation",
+      "answer": "Le locataire doit respecter un préavis de trois mois avant de quitter le logement.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "Le locataire peut donner congé à tout moment, en respectant un préavis de trois mois, par lettre recommandée avec accusé de réception.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        3,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q37",
+      "question": "Où et à quelle date le contrat a-t-il été signé ?",
+      "tags": [
+        "qa",
+        "date"
+      ],
+      "expected": "à Lyon, le 15 décembre 2025",
+      "latency_s": 12.41,
+      "route": "ask",
+      "keywords": "date de signature, lieu de signature, bail, contrat de location, signature du bail",
+      "answer": "Le contrat a été signé à Lyon le 15 décembre 2025.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c1",
+          "page": 3,
+          "quote": "Fait à Lyon, le 15 décembre 2025, en deux exemplaires.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        3,
+        3,
+        2
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q38",
+      "question": "En combien d'exemplaires le contrat a-t-il été établi ?",
+      "tags": [
+        "qa",
+        "number"
+      ],
+      "expected": "deux exemplaires",
+      "latency_s": 13.08,
+      "route": "ask",
+      "keywords": "exemplaires du contrat, nombre d'exemplaires, bail, copies, signature",
+      "answer": "Le contrat a été établi en deux exemplaires.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c1",
+          "page": 3,
+          "quote": "en deux exemplaires.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        3,
+        1,
+        2
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q39",
+      "question": "La caution du garant est-elle solidaire ?",
+      "tags": [
+        "qa",
+        "legal",
+        "party"
+      ],
+      "expected": "oui, caution solidaire",
+      "latency_s": 8.48,
+      "route": "ask",
+      "keywords": "caution solidaire, garantie, bail, responsabilité du garant, cautionnement, solidarité",
+      "answer": "Oui, la caution du garant est solidaire.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "VI. Garant M. Karim Bennani se porte caution solidaire du locataire pour le paiement du loyer et des charges, par acte séparé annexé au présent contrat.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        2,
+        3,
+        1,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q40",
+      "question": "L'engagement du garant figure-t-il dans un acte séparé ?",
+      "tags": [
+        "qa",
+        "legal"
+      ],
+      "expected": "oui, acte séparé annexé",
+      "latency_s": 12.44,
+      "route": "ask",
+      "keywords": "garantie, caution, acte séparé, engagement du garant, bail, contrat de location",
+      "answer": "Oui, l'engagement du garant est consigné dans un acte séparé annexé au contrat.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "VI. Garant M. Karim Bennani se porte caution solidaire du locataire pour le paiement du loyer et des charges, par acte séparé annexé au présent contrat.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        2,
+        3,
+        1,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": false,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q41",
+      "question": "À quelle fréquence le locataire doit-il justifier de son assurance ?",
+      "tags": [
+        "qa",
+        "legal"
+      ],
+      "expected": "chaque année",
+      "latency_s": 10.02,
+      "route": "ask",
+      "keywords": "assurance habitation, justification, fréquence, locataire, bail",
+      "answer": "Le locataire doit justifier de son assurance chaque année.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "en justifier chaque année",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        2,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q42",
+      "question": "Quel organisme publie l'indice utilisé pour réviser le loyer ?",
+      "tags": [
+        "qa"
+      ],
+      "expected": "l'INSEE",
+      "latency_s": 14.54,
+      "route": "ask",
+      "keywords": "indice de référence des loyers, IRL, organisme publication, révision loyer, INSEE",
+      "answer": "L'indice de référence des loyers (IRL) est publié par l'INSEE.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Révision du loyer : le loyer sera révisé chaque année à la date anniversaire du contrat, en fonction de la variation de l'indice de référence des loyers (IRL) publié par l'INSEE.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        3,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q43",
+      "question": "Le dépôt de garantie représente combien de mois de loyer ?",
+      "tags": [
+        "qa",
+        "number",
+        "reasoning"
+      ],
+      "expected": "un mois de loyer hors charges",
+      "ok": false,
+      "error": "Request timed out.",
+      "latency_s": 28.87
+    },
+    {
+      "id": "q44",
+      "question": "Quel est le montant total à payer chaque mois, charges comprises ?",
+      "tags": [
+        "qa",
+        "number",
+        "reasoning"
+      ],
+      "expected": "800 euros (750 de loyer + 50 de provision sur charges)",
+      "latency_s": 13.58,
+      "route": "ask",
+      "keywords": "loyer charges montant total paiement mensuel charges comprises",
+      "answer": "Le montant total à payer chaque mois, charges comprises, est de 800 euros (750 € de loyer + 50 € de charges).",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p2-c0",
+          "page": 2,
+          "quote": "Le loyer mensuel est fixé à 750 euros hors charges. Les charges récupérables font l'objet d'une provision mensuelle de 50 euros",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        2,
+        3,
+        1,
+        1,
+        3
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q45",
+      "question": "Can the tenant keep a dog in the apartment?",
+      "tags": [
+        "qa",
+        "english",
+        "cross-lingual"
+      ],
+      "expected": "yes, as long as it does not disturb the neighbours",
+      "latency_s": 1.8,
+      "route": "ask",
+      "keywords": "animaux domestiques, interdiction animaux, bail, chien, location",
+      "answer": "Oui, le locataire peut garder un chien dans l'appartement, les animaux domestiques étant autorisés à condition de ne causer aucun trouble au voisinage.",
+      "found": true,
+      "citations": [
+        {
+          "chunk_id": "p3-c0",
+          "page": 3,
+          "quote": "Les animaux domestiques sont autorisés, à condition de ne causer aucun trouble au voisinage.",
+          "verified": true
+        }
+      ],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        3,
+        1
+      ],
+      "retrieval_hit": true,
+      "retrieval_hit_at_1": true,
+      "citation_page_ok": true,
+      "ok": true
+    },
+    {
+      "id": "q46",
+      "question": "Le logement comprend-il une place de parking ?",
+      "tags": [
+        "unanswerable",
+        "hallucination-trap"
+      ],
+      "expected": "NOT_IN_CONTRACT",
+      "latency_s": 3.21,
+      "route": "ask",
+      "keywords": "parking, place de stationnement, bail, logement, usage des parties communes",
+      "answer": "Le contrat ne mentionne pas de place de parking.",
+      "found": false,
+      "citations": [],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        1,
+        3
+      ],
+      "ok": true
+    },
+    {
+      "id": "q47",
+      "question": "Quel est le numéro de téléphone du bailleur ?",
+      "tags": [
+        "unanswerable",
+        "hallucination-trap",
+        "party"
+      ],
+      "expected": "NOT_IN_CONTRACT",
+      "latency_s": 1.76,
+      "route": "ask",
+      "keywords": "bailleur, coordonnées, numéro de téléphone, contrat de location, identité du bailleur",
+      "answer": "Le numéro de téléphone du bailleur n'est pas indiqué dans les passages fournis.",
+      "found": false,
+      "citations": [],
+      "retrieved_pages": [
+        3,
+        1,
+        2,
+        3,
+        1
+      ],
+      "ok": true
+    },
+    {
+      "id": "q48",
+      "question": "Quelle est la classe énergétique (DPE) du logement ?",
+      "tags": [
+        "unanswerable",
+        "hallucination-trap",
+        "legal"
+      ],
+      "expected": "NOT_IN_CONTRACT",
+      "latency_s": 8.04,
+      "route": "ask",
+      "keywords": "diagnostic de performance énergétique, classe énergie, DPE, logement, bail",
+      "answer": "Le contrat fourni ne mentionne pas la classe énergétique (DPE) du logement.",
+      "found": false,
+      "citations": [],
+      "retrieved_pages": [
+        3,
+        2,
+        1,
+        3,
+        1
+      ],
+      "ok": true
+    },
+    {
+      "id": "q49",
+      "question": "Does the building have a swimming pool?",
+      "tags": [
+        "unanswerable",
+        "hallucination-trap",
+        "english"
+      ],
+      "expected": "NOT_IN_CONTRACT",
+      "latency_s": 13.17,
+      "route": "ask",
+      "keywords": "piscine, installations communes, équipements du bâtiment, services collectifs, bail",
+      "answer": "Le contrat ne mentionne pas la présence d'une piscine dans le bâtiment.",
+      "found": false,
+      "citations": [],
+      "retrieved_pages": [
+        3,
+        2,
+        1,
+        1,
+        3
+      ],
+      "ok": true
+    },
+    {
+      "id": "q50",
+      "question": "Quel est le montant des frais d'agence ?",
+      "tags": [
+        "unanswerable",
+        "hallucination-trap",
+        "number"
+      ],
+      "expected": "NOT_IN_CONTRACT",
+      "latency_s": 8.32,
+      "route": "ask",
+      "keywords": "frais d'agence, honoraires, location, bail, dépôt de garantie, charges locatives",
+      "answer": "Le montant des frais d'agence n'est pas indiqué dans les passages fournis.",
+      "found": false,
+      "citations": [],
+      "retrieved_pages": [
+        2,
+        3,
+        3,
+        1,
+        1
+      ],
+      "ok": true
+    }
+  ]
+}

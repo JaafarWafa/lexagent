@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+data/contracts/*.pdf
+# fictional test contracts used by the evals and CI
+!data/contracts/bail_exemple.pdf
+!data/contracts/bail_abusif.pdf
+.venv/

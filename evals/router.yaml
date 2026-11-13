@@ -1,0 +1,23 @@
+# Router eval: request -> expected route. Cheap to run, catches routing regressions.
+- {text: "Extrais les informations clés du bail", route: extract}
+- {text: "Fais-moi la fiche du contrat", route: extract}
+- {text: "Résume les points importants de ce bail", route: extract}
+- {text: "Give me a summary of this lease", route: extract}
+- {text: "Extract all the key fields from this contract", route: extract}
+- {text: "Peux-tu me sortir toutes les infos importantes du contrat ?", route: extract}
+- {text: "What are the main terms of this lease?", route: extract}
+- {text: "Donne-moi une vue d'ensemble du bail", route: extract}
+- {text: "Quel est le montant du dépôt de garantie ?", route: ask}
+- {text: "Who pays for minor repairs?", route: ask}
+- {text: "Le locataire peut-il sous-louer ?", route: ask}
+- {text: "Quel est le préavis du locataire ?", route: ask}
+- {text: "Can I have a cat?", route: ask}
+- {text: "Qui est le garant ?", route: ask}
+- {text: "Résume la clause résolutoire", route: ask}
+- {text: "What is the rent?", route: ask}
+- {text: "Ce bail est-il conforme à la loi ?", route: check}
+- {text: "Y a-t-il des clauses abusives dans ce contrat ?", route: check}
+- {text: "Is this lease legal?", route: check}
+- {text: "Vérifie s'il y a des risques dans ce bail", route: check}
+- {text: "Any red flags in this contract?", route: check}
+- {text: "Le dépôt de garantie de 1600 euros est-il légal ?", route: ask}

@@ -1,0 +1,16 @@
+# Gold labels for one contract. Fill these by reading the contract yourself.
+contract: data/contracts/bail_exemple.pdf
+fields:
+  monthly_rent_eur: 750
+  charges_eur: 50
+  deposit_eur: 750
+  lease_type: vide
+  duration_months: 36
+  start_date: "2026-01-01"
+  notice_period_tenant_months: 3
+questions:
+  - id: q03
+    expected: "750 €"
+    page: 2
+  - id: q19
+    expected: NOT_IN_CONTRACT

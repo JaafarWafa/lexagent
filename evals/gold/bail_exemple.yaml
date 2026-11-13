@@ -1,0 +1,66 @@
+# Gold labels for data/contracts/bail_exemple.pdf (fictional test lease).
+contract: data/contracts/bail_exemple.pdf
+fields:
+  monthly_rent_eur: 750
+  charges_eur: 50
+  deposit_eur: 750
+  lease_type: vide
+  duration_months: 36
+  start_date: "2026-01-01"
+  notice_period_tenant_months: 3
+  notice_period_landlord_months: 6
+  landlord_type: personne physique
+  surface_m2: 42
+# A lawful lease: the compliance agent must raise no flag at all.
+compliance: []
+questions:
+  - {id: q01, expected: "750 €", page: 2}
+  - {id: q02, expected: "50 €", page: 2}
+  - {id: q03, expected: "750 €", page: 2}
+  - {id: q04, expected: "Mme Claire Fontaine", page: 1}
+  - {id: q05, expected: "M. Youssef Bennani", page: 1}
+  - {id: q06, expected: "24 avenue Jean Jaurès, 69007 Lyon, appt 12", page: 1}
+  - {id: q07, expected: "vide", page: 1}
+  - {id: q08, expected: "1er janvier 2026", page: 1}
+  - {id: q09, expected: "36 mois", page: 1}
+  - {id: q10, expected: "3 mois", page: 3}
+  - {id: q11, expected: "oui, annuelle, IRL", page: 2}
+  - {id: q12, expected: "the tenant", page: 3}
+  - {id: q13, expected: "no, unless written consent", page: 3}
+  - {id: q14, expected: "oui, sans trouble au voisinage", page: 3}
+  - {id: q15, expected: "oui, impayés après 2 mois de commandement ou défaut d'assurance", page: 3}
+  - {id: q16, expected: "oui", page: 3}
+  - {id: q17, expected: "diagnostics, état des lieux, notice, cautionnement", page: 3}
+  - {id: q18, expected: "M. Karim Bennani, caution solidaire", page: 2}
+  - {id: q19, expected: NOT_IN_CONTRACT}
+  - {id: q20, expected: NOT_IN_CONTRACT}
+  - {id: q21, expected: "le 5 de chaque mois", page: 2}
+  - {id: q22, expected: "par virement", page: 2}
+  - {id: q23, expected: "42 m²", page: 1}
+  - {id: q24, expected: "un séjour, une chambre, une cuisine équipée, une salle d'eau", page: 1}
+  - {id: q25, expected: "3e étage", page: 1}
+  - {id: q26, expected: "oui", page: 1}
+  - {id: q27, expected: "reconduction tacite pour la même durée", page: 1}
+  - {id: q28, expected: "six mois, à l'échéance du bail, pour un motif légal", page: 3}
+  - {id: q29, expected: "lettre recommandée avec accusé de réception", page: 3}
+  - {id: q30, expected: "deux mois maximum après la remise des clés", page: 2}
+  - {id: q31, expected: "oui, régularisation annuelle", page: 2}
+  - {id: q32, expected: "8 rue des Lilas, 69003 Lyon", page: 1}
+  - {id: q33, expected: "750 euros", page: 2}
+  - {id: q34, expected: "the lease is terminated automatically two months after an unsuccessful formal demand to pay", page: 3}
+  - {id: q35, expected: "yes, annually, on the IRL (INSEE rent reference index)", page: 2}
+  - {id: q36, expected: "three months", page: 3}
+  - {id: q37, expected: "à Lyon, le 15 décembre 2025", page: 3}
+  - {id: q38, expected: "deux exemplaires", page: 3}
+  - {id: q39, expected: "oui, caution solidaire", page: 2}
+  - {id: q40, expected: "oui, acte séparé annexé", page: 2}
+  - {id: q41, expected: "chaque année", page: 3}
+  - {id: q42, expected: "l'INSEE", page: 2}
+  - {id: q43, expected: "un mois de loyer hors charges", page: 2}
+  - {id: q44, expected: "800 euros (750 de loyer + 50 de provision sur charges)", page: 2}
+  - {id: q45, expected: "yes, as long as it does not disturb the neighbours", page: 3}
+  - {id: q46, expected: NOT_IN_CONTRACT}
+  - {id: q47, expected: NOT_IN_CONTRACT}
+  - {id: q48, expected: NOT_IN_CONTRACT}
+  - {id: q49, expected: NOT_IN_CONTRACT}
+  - {id: q50, expected: NOT_IN_CONTRACT}

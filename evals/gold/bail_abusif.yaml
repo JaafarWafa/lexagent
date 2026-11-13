@@ -1,0 +1,70 @@
+# Gold labels for data/contracts/bail_abusif.pdf (fictional lease with deliberate legal problems).
+# Regenerate the PDF with: python data/make_test_contracts.py
+contract: data/contracts/bail_abusif.pdf
+fields:
+  monthly_rent_eur: 800
+  charges_eur: 70
+  deposit_eur: 1600
+  lease_type: vide
+  duration_months: 12
+  start_date: "2026-03-01"
+  notice_period_tenant_months: 6
+  notice_period_landlord_months: 3
+  landlord_type: personne physique
+  surface_m2: null
+# Every flag the compliance agent must raise (rule ids from app/agents/compliance.py).
+# Lawful clauses in this contract (6-week clause résolutoire for unpaid rent, deposit returned
+# in 1 or 2 months, sublet only with written consent, works access excluding weekends...) must
+# NOT be flagged: any other flag counts as a false positive.
+compliance:
+  - deposit_cap            # 2 months of rent for an unfurnished lease
+  - duration_min           # 12 months, landlord is a natural person -> 3 years minimum
+  - tenant_notice_max      # 6 months instead of 3
+  - landlord_notice_min    # 3 months instead of 6
+  - indexation_irl         # ICC instead of IRL
+  - missing_surface_m2     # no surface habitable
+  - art4_direct_debit      # mandatory direct debit
+  - art4_penalties         # 30 euros per day late
+  - art4_receipt_fees      # 5 euros per rent receipt
+  - art4_insurer_choice    # insurer chosen by the landlord
+  - pets_ban               # all animals banned
+  - art4_guests            # cannot host anyone
+  - art4_visits            # visits every day including Sundays and public holidays
+  - art4_termination       # termination for breaking the building rules
+questions:
+  - {id: q01, expected: "800 euros", page: 2}
+  - {id: q02, expected: "70 euros", page: 2}
+  - {id: q03, expected: "1600 euros", page: 3}
+  - {id: q04, expected: "M. Henri Duval", page: 1}
+  - {id: q05, expected: "Mme Inès Moreau", page: 1}
+  - {id: q06, expected: "17 rue Paul Bert, 69003 Lyon, appartement n° 4", page: 1}
+  - {id: q07, expected: "vide (non meublé)", page: 1}
+  - {id: q08, expected: "1er mars 2026", page: 1}
+  - {id: q09, expected: "un an, 12 mois", page: 1}
+  - {id: q10, expected: "six mois", page: 3}
+  - {id: q11, expected: "oui, chaque année au 1er mars, selon l'indice du coût de la construction (ICC)", page: 2}
+  - {id: q12, expected: "the tenant", page: 3}
+  - {id: q13, expected: "no, unless the landlord agrees in writing", page: 3}
+  - {id: q14, expected: "non, tout animal est interdit", page: 3}
+  - {id: q15, expected: "oui : impayés six semaines après un commandement de payer, défaut d'assurance, et non-respect du règlement intérieur", page: 4}
+  - {id: q16, expected: "oui, auprès d'Assur'Habitat Lyon, désignée par le bailleur", page: 3}
+  - {id: q17, expected: "dossier de diagnostic technique, état des lieux d'entrée, notice d'information, extraits du règlement de copropriété", page: 5}
+  - {id: q18, expected: NOT_IN_CONTRACT}   # no guarantor in this lease
+  - {id: q19, expected: NOT_IN_CONTRACT}
+  - {id: q20, expected: NOT_IN_CONTRACT}
+  - {id: q21, expected: "le 1er de chaque mois", page: 2}
+  - {id: q22, expected: "obligatoirement par prélèvement automatique", page: 2}
+  - {id: q23, expected: NOT_IN_CONTRACT}   # surface habitable missing (itself a compliance flag)
+  - {id: q25, expected: "2e étage", page: 1}
+  - {id: q28, expected: "trois mois", page: 3}
+  - {id: q30, expected: "un mois si l'état des lieux de sortie est conforme, deux mois sinon", page: 3}
+  - {id: q33, expected: "1600 euros", page: 3}
+  - {id: q36, expected: "six months", page: 3}
+  - {id: q37, expected: "à Lyon, le 10 février 2026", page: 5}
+  - {id: q38, expected: "deux exemplaires", page: 5}
+  - {id: q44, expected: "870 euros (800 de loyer + 70 de provision sur charges)", page: 2}
+  - {id: q45, expected: "no, all animals are banned", page: 3}
+  - {id: q46, expected: NOT_IN_CONTRACT}   # a cellar, but no parking space
+  - {id: q47, expected: NOT_IN_CONTRACT}
+  - {id: q49, expected: NOT_IN_CONTRACT}
+  - {id: q50, expected: NOT_IN_CONTRACT}

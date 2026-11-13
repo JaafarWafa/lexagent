@@ -1,0 +1,73 @@
+name: ci
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: pytest -q
+
+  # Runs the eval suite against a real LLM and fails the build if quality drops.
+  # Needs the repo secret LLM_API_KEY (and optionally the variables LLM_BASE_URL, LLM_MODEL).
+  # Only on main and manual runs: ~300 LLM calls, too slow and costly for every branch push.
+  evals:
+    needs: test
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+      LLM_BASE_URL: ${{ vars.LLM_BASE_URL || 'https://api.groq.com/openai/v1' }}
+      LLM_MODEL: ${{ vars.LLM_MODEL || 'openai/gpt-oss-120b' }}
+      FASTEMBED_CACHE_PATH: /home/runner/.cache/fastembed  # absolute: Python does not expand ~
+      HF_HUB_DISABLE_XET: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: actions/cache@v4
+        with:
+          path: /home/runner/.cache/fastembed
+          key: fastembed-paraphrase-multilingual-MiniLM-L12-v2
+      - run: pip install -r requirements.txt
+      - name: Check the API key is configured
+        run: |
+          if [ -z "$LLM_API_KEY" ]; then
+            echo "::warning::LLM_API_KEY secret not set, skipping evals"; echo "SKIP=1" >> "$GITHUB_ENV"
+          fi
+      - name: Lawful lease (Q&A, extraction, no false compliance flags)
+        if: env.SKIP != '1'
+        run: >
+          python evals/run_evals.py --judge
+          --contract data/contracts/bail_exemple.pdf --gold evals/gold/bail_exemple.yaml
+          --out evals/results.json
+          --fail-under answer_accuracy=0.88
+          --fail-under abstention_rate=0.85
+          --fail-under extraction_field_accuracy=0.85
+          --fail-under router_accuracy=0.9
+          --fail-under compliance_precision=1.0
+      - name: Abusive lease (compliance recall and precision, longer contract)
+        if: env.SKIP != '1'
+        run: >
+          python evals/run_evals.py --judge
+          --contract data/contracts/bail_abusif.pdf --gold evals/gold/bail_abusif.yaml
+          --out evals/results_abusif.json
+          --fail-under compliance_recall=0.85
+          --fail-under compliance_precision=0.85
+          --fail-under answer_accuracy=0.8
+      - uses: actions/upload-artifact@v4
+        if: always() && env.SKIP != '1'
+        with:
+          name: eval-results
+          path: evals/results*.json

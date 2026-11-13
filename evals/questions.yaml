@@ -1,0 +1,169 @@
+# 50 questions for a French residential lease.
+# For each contract, copy this into evals/gold/<contract>.yaml and fill `expected`
+# (and `page` where the answer is). Tags = failure taxonomy reported per tag.
+- id: q01
+  question: Quel est le montant du loyer mensuel hors charges ?
+  field: monthly_rent_eur
+  tags: [extraction, number]
+- id: q02
+  question: Quel est le montant des charges mensuelles ?
+  field: charges_eur
+  tags: [extraction, number]
+- id: q03
+  question: Quel est le montant du dépôt de garantie ?
+  field: deposit_eur
+  tags: [extraction, number]
+- id: q04
+  question: Qui est le bailleur ?
+  tags: [extraction, party]
+- id: q05
+  question: Qui est le locataire ?
+  tags: [extraction, party]
+- id: q06
+  question: Quelle est l'adresse du logement ?
+  field: property_address
+  tags: [extraction]
+- id: q07
+  question: Le logement est-il loué vide ou meublé ?
+  field: lease_type
+  tags: [extraction, classification]
+- id: q08
+  question: À quelle date commence le bail ?
+  field: start_date
+  tags: [extraction, date]
+- id: q09
+  question: Quelle est la durée du bail ?
+  field: duration_months
+  tags: [extraction, number]
+- id: q10
+  question: Quel est le préavis du locataire pour quitter le logement ?
+  field: notice_period_tenant_months
+  tags: [extraction]
+- id: q11
+  question: Le loyer est-il révisé chaque année, et selon quel indice ?
+  field: rent_indexation
+  tags: [extraction]
+- id: q12
+  question: Who pays for minor repairs in the apartment?
+  tags: [qa, english, cross-lingual]
+- id: q13
+  question: Can the tenant sublet the apartment?
+  tags: [qa, english, cross-lingual]
+- id: q14
+  question: Les animaux de compagnie sont-ils autorisés ?
+  tags: [qa]
+- id: q15
+  question: Le bail contient-il une clause résolutoire ? Que prévoit-elle ?
+  tags: [qa, legal]
+- id: q16
+  question: Une assurance habitation est-elle obligatoire pour le locataire ?
+  tags: [qa, legal]
+- id: q17
+  question: Quels documents sont annexés au bail ?
+  tags: [qa, list]
+- id: q18
+  question: Le bail mentionne-t-il un garant ou une caution ? Qui ?
+  tags: [qa, party]
+- id: q19
+  question: Quel est le nom du chat du propriétaire ?
+  expected: NOT_IN_CONTRACT
+  tags: [unanswerable, hallucination-trap]
+- id: q20
+  question: Quel est le montant de la taxe foncière payée par le bailleur ?
+  expected: NOT_IN_CONTRACT
+  tags: [unanswerable, hallucination-trap]
+- id: q21
+  question: Quel jour du mois le loyer doit-il être payé ?
+  tags: [qa, date]
+- id: q22
+  question: Par quel moyen le loyer est-il payé ?
+  tags: [qa]
+- id: q23
+  question: Quelle est la surface habitable du logement ?
+  tags: [qa, number]
+- id: q24
+  question: De quelles pièces se compose le logement ?
+  tags: [qa, list]
+- id: q25
+  question: À quel étage se trouve l'appartement ?
+  tags: [qa]
+- id: q26
+  question: Le logement est-il loué comme résidence principale ?
+  tags: [qa, legal]
+- id: q27
+  question: Que se passe-t-il à la fin du bail si personne ne donne congé ?
+  tags: [qa, legal]
+- id: q28
+  question: Quel préavis le bailleur doit-il respecter pour donner congé ?
+  tags: [qa, legal]
+- id: q29
+  question: Sous quelle forme le locataire doit-il envoyer son congé ?
+  tags: [qa, legal]
+- id: q30
+  question: Dans quel délai le dépôt de garantie est-il restitué ?
+  tags: [qa, legal, number]
+- id: q31
+  question: Les charges font-elles l'objet d'une régularisation ?
+  tags: [qa]
+- id: q32
+  question: Where does the landlord live?
+  tags: [qa, english, cross-lingual, party]
+- id: q33
+  question: How much is the security deposit?
+  tags: [qa, english, cross-lingual, number]
+- id: q34
+  question: What happens if the tenant stops paying the rent?
+  tags: [qa, english, cross-lingual, legal]
+- id: q35
+  question: Is the rent increased every year, and based on which index?
+  tags: [qa, english, cross-lingual]
+- id: q36
+  question: How much notice must the tenant give before leaving?
+  tags: [qa, english, cross-lingual]
+- id: q37
+  question: Où et à quelle date le contrat a-t-il été signé ?
+  tags: [qa, date]
+- id: q38
+  question: En combien d'exemplaires le contrat a-t-il été établi ?
+  tags: [qa, number]
+- id: q39
+  question: La caution du garant est-elle solidaire ?
+  tags: [qa, legal, party]
+- id: q40
+  question: L'engagement du garant figure-t-il dans un acte séparé ?
+  tags: [qa, legal]
+- id: q41
+  question: À quelle fréquence le locataire doit-il justifier de son assurance ?
+  tags: [qa, legal]
+- id: q42
+  question: Quel organisme publie l'indice utilisé pour réviser le loyer ?
+  tags: [qa]
+- id: q43
+  question: Le dépôt de garantie représente combien de mois de loyer ?
+  tags: [qa, number, reasoning]
+- id: q44
+  question: Quel est le montant total à payer chaque mois, charges comprises ?
+  tags: [qa, number, reasoning]
+- id: q45
+  question: Can the tenant keep a dog in the apartment?
+  tags: [qa, english, cross-lingual]
+- id: q46
+  question: Le logement comprend-il une place de parking ?
+  expected: NOT_IN_CONTRACT
+  tags: [unanswerable, hallucination-trap]
+- id: q47
+  question: Quel est le numéro de téléphone du bailleur ?
+  expected: NOT_IN_CONTRACT
+  tags: [unanswerable, hallucination-trap, party]
+- id: q48
+  question: Quelle est la classe énergétique (DPE) du logement ?
+  expected: NOT_IN_CONTRACT
+  tags: [unanswerable, hallucination-trap, legal]
+- id: q49
+  question: Does the building have a swimming pool?
+  expected: NOT_IN_CONTRACT
+  tags: [unanswerable, hallucination-trap, english]
+- id: q50
+  question: Quel est le montant des frais d'agence ?
+  expected: NOT_IN_CONTRACT
+  tags: [unanswerable, hallucination-trap, number]

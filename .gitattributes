@@ -1,0 +1,4 @@
+# Store text with LF everywhere (shell scripts must stay LF for the Linux containers)
+* text=auto eol=lf
+*.pdf binary
+*.png binary
